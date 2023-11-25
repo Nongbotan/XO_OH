@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X OHHHHHHHH</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #000;
+    }
+
+    .square {
+      width: 100px;
+      height: 100px;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+      background-color: transparent;
+      transition: background-color 0.3s ease-in-out; /* เพิ่ม transition เพื่อให้มีการเปลี่ยนสีอย่างสวยงาม */
+    }
+
+    .container {
+      color: #fff;
+    }
+
+    /* สไตล์สำหรับแสดงผลเมื่อมีผู้ชนะ */
+    .win-alert {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-60%);
+      background-color: #2ecc71;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      margin-right: auto;
+      margin-left: 0;
+    }
+
+    @media (max-width: 576px) {
+      .square {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+      }
+    }
+
+    /* เพิ่มสไตล์ hover เพื่อเปลี่ยนสีพื้นหลังของช่องที่ยังไม่ถูกคลิกเมื่อนำเมาส์มา Hover */
+    .square:not(:empty):hover {
+      cursor: not-allowed; /* กำหนด Cursor เมื่อ Hover บนช่องที่ถูกเลือกแล้ว */
+    }
+
+    /* เพิ่มสไตล์ hover เพื่อเปลี่ยนสีพื้นหลังของช่องที่ยังไม่ถูกคลิกเมื่อนำเมาส์มา Hover */
+    .square:empty:hover {
+      background-color: #1a1a1a;
+      cursor: pointer; /* กำหนด Cursor เมื่อ Hover บนช่องที่ยังไม่ถูกเลือก */
+    }
+  </style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+  <div class="container">
+    <h1 class="text-center mb-5">X OHHHHHHHH</h1>
+    <div class="row justify-content-center">
+      <div class="col-6 offset-md-3">
+        <div class="row">
+          <div class="col-4 square" data-index="0"></div>
+          <div class="col-4 square" data-index="1"></div>
+          <div class="col-4 square" data-index="2"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 square" data-index="3"></div>
+          <div class="col-4 square" data-index="4"></div>
+          <div class="col-4 square" data-index="5"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 square" data-index="6"></div>
+          <div class="col-4 square" data-index="7"></div>
+          <div class="col-4 square" data-index="8"></div>
+        </div>
+
+        <div class="row justify-content-start">
+          <div class="col-10">
+            <div class="win-alert mt-3" id="winAlert" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentPlayer = 'X';
+    const squares = document.querySelectorAll('.square');
+    const resetButton = document.getElementById('resetBtn');
+    const winAlert = document.getElementById('winAlert');
+  
+    squares.forEach(square => {
+      square.addEventListener('click', () => {
+        if (!square.textContent) {
+          square.textContent = currentPlayer;
+          if (checkWinner()) {
+            winAlert.textContent = `Player ${currentPlayer} ชนะ โดนกูแน่!`;
+            winAlert.style.display = 'block';
+            // เช็คในการชนะ และเปลี่ยนไปยังหน้า punish.html หากชนะ
+            setTimeout(() => {
+              window.location.href = 'punish.html'; // เดินทางไปยังหน้า punish.html
+            }, 2000); // หน่วงเวลา 2 วินาทีก่อนเดินทางไปหน้า punish.html
+          } else if ([...squares].every(square => square.textContent !== '')) {
+            winAlert.textContent = "It's a draw!";
+            winAlert.style.display = 'block';
+            setTimeout(resetGame, 1000); // Reset game after 2 seconds
+          } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+          }
+        }
+      });
+    });
+  
+    resetButton.addEventListener('click', resetGame);
+  
+    function checkWinner() {
+      const winConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+        [0, 4, 8], [2, 4, 6] // diagonals
+      ];
+      return winConditions.some(condition => {
+        const [a, b, c] = condition;
+        return squares[a].textContent &&
+          squares[a].textContent === squares[b].textContent &&
+          squares[a].textContent === squares[c].textContent;
+      });
+    }
+  
+    function resetGame() {
+      squares.forEach(square => {
+        square.textContent = '';
+      });
+      winAlert.style.display = 'none';
+      currentPlayer = 'X';
+    }
+  </script>
+</body>
+
+</html>

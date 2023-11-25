@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X OHHHHHHHH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- เพิ่มการเชื่อมโยงไปยังไฟล์ CSS ของ FontAwesome -->
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            /* เปลี่ยนสีข้อความภายใน body เป็นสีขาว */
+            font-family: Arial, sans-serif;
+            /* ตั้งค่าแบบอักษรเป็น sans-serif */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* สไตล์สำหรับแสดงผลเมื่อมีผู้ชนะ */
+        .win-alert {
+            background-color: #2ecc71;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center mb-4">สุ่มข้อความ</h1>
+        <h2 id="randomText" class="mb-4"></h2>
+        <button class="btn btn-success" onclick="startRandomize()">
+            <i class="fas fa-random"></i> สุ่มข้อความ
+          </button>
+          <button class="btn btn-danger" onclick="stopRandomize()">
+            <i class="fas fa-stop"></i> หยุด
+          </button><br><br>
+          <a class="btn btn-primary" href="index.html" role="button">
+            <i class="fas fa-redo"></i> เล่นอีกครั้ง
+        </a>
+    </div>
+
+    <script>
+        const textOptions = [
+            "หมดแก้ว",
+            "ถามเพื่อนๆว่าให้กูรอดหรือแดรก",
+            "หอมแก้มคนชนะ",
+            "เต้นท่าเหี้ยๆให้ดู 5 วิ",
+            "โล่งไม่ต้องแดรก",
+            "แดรกครึ่งแก้ว",
+            "แดรกเท่าไหร่ก็ได้",
+            "จัดไปเต็มแก้ว",
+            "บอกความในใจเกี่ยวกับคนชนะเรื่องอะไรก็ได้",
+            "ป๊าบๆคนชนะ แล้วถ่ายคลิปมาให้เจ้าของเว็บดูด้วย",
+            // เพิ่มข้อความตามที่คุณต้องการ
+        ];
+
+        let flag = false;
+
+        function randomizeText() {
+            const randomIndex = Math.floor(Math.random() * textOptions.length);
+            const randomTextElement = document.getElementById('randomText');
+            randomTextElement.textContent = textOptions[randomIndex];
+            flag = true;
+        }
+
+        let intervalId;
+
+        function startRandomize() {
+            if (!flag) {
+                randomizeText(); // เริ่มการสุ่มข้อความทันที
+                intervalId = setInterval(randomizeText, 50); // เริ่มการสุ่มทุก 5 วินาที
+            }
+        }
+
+        function stopRandomize() {
+            clearInterval(intervalId); // หยุดการสุ่ม
+        }
+    </script>
+</body>
+
+</html>
